@@ -19,21 +19,18 @@ export class EtudiantComponent implements OnInit {
     this.getAllEtudiants();
   }
 
-  // Récupérer tous les étudiants
   getAllEtudiants(): void {
     this.etudiantService.getAllEtudiants().subscribe((data) => {
       this.etudiants = data;
     });
   }
 
-  // Récupérer un étudiant par son ID
   getEtudiant(id: number): void {
     this.etudiantService.getEtudiantById(id).subscribe((data) => {
       this.selectedEtudiant = data;
     });
   }
 
-  // Créer un nouvel étudiant
   createEtudiant(): void {
     this.etudiantService.createEtudiant(this.newEtudiant).subscribe((data) => {
       this.etudiants.push(data);
@@ -41,7 +38,6 @@ export class EtudiantComponent implements OnInit {
     });
   }
 
-  // Ajouter une liste d'étudiants
   addEtudiants(): void {
     const newEtudiants: Etudiant[] = [
       new Etudiant(), // Ajoutez vos objets étudiants ici
@@ -52,7 +48,6 @@ export class EtudiantComponent implements OnInit {
     });
   }
 
-  // Mettre à jour un étudiant
   updateEtudiant(code_etudiant: string): void {
     if (this.selectedEtudiant) {
       this.etudiantService.updateEtudiant(code_etudiant, this.selectedEtudiant).subscribe((data) => {
@@ -65,7 +60,6 @@ export class EtudiantComponent implements OnInit {
     }
   }
 
-  // Supprimer un étudiant
   deleteEtudiant(code_etudiant: string): void {
     this.etudiantService.deleteEtudiant(code_etudiant).subscribe(() => {
       this.etudiants = this.etudiants.filter(etudiant => etudiant.codeEtudiant !== code_etudiant);
