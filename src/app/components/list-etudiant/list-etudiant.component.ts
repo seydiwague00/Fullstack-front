@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -17,7 +17,7 @@ import {catchError} from 'rxjs/operators';
   templateUrl: './list-etudiant.component.html',
   styleUrls: ['./list-etudiant.component.css']
 })
-export class ListEtudiantComponent implements OnInit {
+export class ListEtudiantComponent implements OnInit, AfterViewInit {
 
   public dataSource = new MatTableDataSource<Etudiant>();
   public displayedColumns: string[] = ["codeEtudiant", "nom", "prenom", "email", "niveauEtude", "actions"];
@@ -39,11 +39,14 @@ export class ListEtudiantComponent implements OnInit {
     this.getAllEtudiants();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   getAllEtudiants(): void {
     this.etudiantService.getAllEtudiants().subscribe((data) => {
-      this.dataSource.data = data;  // Assurez-vous que les données sont bien affectées
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.dataSource.data = data;
     });
   }
 
