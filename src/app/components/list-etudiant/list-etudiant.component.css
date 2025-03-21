@@ -2,6 +2,20 @@ mat-card-content {
   padding: 20px;
 }
 
-.raised-button{
-  margin-outside: auto;
+mat-card-title {
+  padding-left: 15px;
+  text-align: center;
+  display: block;
+  color: #254bba;
+  font-style: italic;
+  text-transform: capitalize;
+  font-weight: bold;
+  text-decoration: underline;
 }
+
+
+button {
+  margin: 5px
+}
+
+
