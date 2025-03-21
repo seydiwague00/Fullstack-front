@@ -1,0 +1,33 @@
+mat-card-title {
+  padding-left: 15px;
+  display: block;
+  color: #254bba;
+  font-style: italic;
+  text-transform: capitalize;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+mat-card-content {
+  text-align: center;
+  display: block;
+  font-weight: bold;
+  font-size: 30px;
+  padding: 20px;
+  color: cadetblue;
+  margin-bottom: 20px;
+  /*text-decoration: underline cadetblue 2px;*/
+}
+
+
+mat-form-field, button {
+  width: 300px;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+button {
+  padding: 2px;
+  margin-bottom: 15px;
+}

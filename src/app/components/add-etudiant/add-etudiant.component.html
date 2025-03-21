@@ -1,9 +1,41 @@
 <div class="container">
-  <mat-card>
+  <mat-card [formGroup]="studentFormGroup">
     <mat-card-header>
-      <mat-card-title>Add Student</mat-card-title>
+      <mat-card-title>Adding Student</mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>Student information</mat-card-content>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Code etudiant</mat-label>
+      <input matInput type="text" formControlName="codeEtudiant">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Nom</mat-label>
+      <input matInput type="text" formControlName="nom">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Prenom</mat-label>
+      <input matInput type="text" formControlName="prenom">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="e-mail" formControlName="email">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Niveau d'étude</mat-label>
+      <mat-select [(value)]="selected" formControlName="niveauEtude">
+        <mat-option value="none">None</mat-option>
+        <mat-option value="LICENCE_1">LICENCE 1</mat-option>
+        <mat-option value="LICENCE_2">LICENCE 2</mat-option>
+        <mat-option value="LICENCE_3">LICENCE 3</mat-option>
+        <mat-option value="MASTER_1">MASTER 1</mat-option>
+        <mat-option value="MASTER_2">MASTER 2</mat-option>
+        <mat-option value="DOCTORAL">DOCTORAL</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit" (click)="addStudent()">Send</button>
+    <button mat-flat-button color="accent" type="reset" (click)="resetForm()">Reset</button>
   </mat-card>
 </div>

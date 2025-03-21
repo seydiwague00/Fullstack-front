@@ -1,9 +1,12 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {Etudiant} from '../../models/etudiant.model';
 import {EtudiantService} from '../../services/etudiant.service';
+import {Router} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import {UpdateEtudiantComponent} from '../update-etudiant/update-etudiant.component';
 
 @Component({
   selector: 'app-list-etudiant',
@@ -11,43 +14,53 @@ import {EtudiantService} from '../../services/etudiant.service';
   templateUrl: './list-etudiant.component.html',
   styleUrl: './list-etudiant.component.css'
 })
-export class ListEtudiantComponent implements OnInit, AfterViewInit {
+export class ListEtudiantComponent implements OnInit {
 
   etudiants: Etudiant[] = [];
+  public dataSource = new MatTableDataSource<Etudiant>;
+  public displayedColumns: string[] = ["codeEtudiant", "nom", "prenom", "email", "niveauEtude", "actions"];
 
-  public students: any;
-  public dataSource: any;
-  // public displayedColumns: any = ["id", "firstName", "lastName", "age", "actions"];
-  public displayedColumns: any = ["codeEtudiant", "nom", "prenom", "email", "niveauEtude","actions"];
-
-  @ViewChild(MatPaginator) paginator !: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private etudiantService: EtudiantService) {
+  constructor(private etudiantService: EtudiantService, private router: Router, public dialog: MatDialog) {
   }
 
   ngOnInit() {
-    // for (let i = 1; i < 50; i++) {
-    //   this.students.push(
-    //     {
-    //       id: i,
-    //       firstName: Math.random().toString(20),
-    //       lastName: Math.random().toString(20),
-    //       age: Math.floor(Math.random() * (30 - 18 + 1)) + 18,
-    //     }
-    //   );
-    // }
     this.getAllEtudiants();
-    this.dataSource = new MatTableDataSource(this.etudiants);
-  }
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (this.paginator && this.sort) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   getAllEtudiants(): void {
     this.etudiantService.getAllEtudiants().subscribe((data) => {
       this.etudiants = data;
+      this.dataSource = new MatTableDataSource(this.etudiants);
     });
+  }
+
+
+  filterStudents(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
+  }
+
+  updateStudent(student: Etudiant): void {
+    const dialogRef = this.dialog.open(UpdateEtudiantComponent, {
+      width: '500px',
+      data: student
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getAllEtudiants();
+      }
+    });
+  }
+
+  deleteStudent(student: Etudiant) {
+    this.router.navigateByUrl(`/deleteStudents/${student.codeEtudiant}`);
   }
 }
