@@ -1,1 +1,8 @@
-<p>delete-student works!</p>
+<h2 mat-dialog-title>Confirmation de suppression</h2>
+<mat-dialog-content>
+  <p>Êtes-vous sûr de vouloir supprimer <strong>{{ data.nom }} {{ data.prenom }}</strong> (Code : {{ data.codeEtudiant }}) ?</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Annuler</button>
+  <button mat-flat-button color="warn" (click)="confirmDelete()">Supprimer</button>
+</mat-dialog-actions>

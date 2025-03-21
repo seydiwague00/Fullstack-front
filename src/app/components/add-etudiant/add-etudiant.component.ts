@@ -16,14 +16,6 @@ export class AddEtudiantComponent {
 
   public selected: string = 'none';
 
-  public student: Etudiant = {
-    codeEtudiant: '',
-    nom: '',
-    prenom: '',
-    email: '',
-    niveauEtude: ''
-  };
-
   submitted = false;
 
   constructor(
@@ -43,30 +35,6 @@ export class AddEtudiantComponent {
     });
   }
 
-  // addStudent() {
-  //   if (this.studentFormGroup.valid) {
-  //     // console.log(this.studentFormGroup.value);
-  //     const data = {
-  //       codeEtudiant: this.studentFormGroup.value.codeEtudiant,
-  //       nom: this.studentFormGroup.value.nom,
-  //       prenom: this.studentFormGroup.value.prenom,
-  //       email: this.studentFormGroup.value.email,
-  //       niveauEtude: this.studentFormGroup.value.niveauEtude
-  //     }
-  //     console.log(data);
-  //
-  //     this.etudiantService.createEtudiant(data).subscribe({
-  //       next: (res) => {
-  //         console.log(res);
-  //         this.submitted = true;
-  //       },
-  //       error: (e) => console.error(e)
-  //     });
-  //   } else {
-  //     console.log("Formulaire invalide");
-  //   }
-  // }
-
   addStudent() {
     if (this.studentFormGroup.valid) {
       const data = {
@@ -77,19 +45,18 @@ export class AddEtudiantComponent {
         niveauEtude: this.studentFormGroup.value.niveauEtude
       };
 
-      console.log(data);
-
       this.etudiantService.createEtudiant(data).subscribe({
         next: (res) => {
-          console.log(res);
           this.submitted = true;
 
-          this.snackBar.open('Étudiant créé avec succès!', 'Fermer', {
+          this.snackBar.open('Ajout réussie ! ✅', 'Fermer', {
             duration: 3000,
-            panelClass: ['snack-bar-success'],
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['success-snackbar']
           });
 
-          window.location.reload();
+          this.resetForm()
         },
         error: (e) => {
           console.error(e);
@@ -103,10 +70,14 @@ export class AddEtudiantComponent {
     } else {
       console.log("Formulaire invalide");
 
-      this.snackBar.open('Veuillez remplir correctement le formulaire.', 'Fermer', {
+      this.snackBar.open("Erreur lors de l'ajout de l'étudiant' ❌", 'Fermer', {
         duration: 3000,
-        panelClass: ['snack-bar-error'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        panelClass: ['error-snackbar']
       });
+
+      this.resetForm();
     }
   }
 

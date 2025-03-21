@@ -32,9 +32,9 @@ export class EtudiantService {
     );
   }
 
-  updateEtudiant(etudiant: Etudiant): Observable<Etudiant> {
+  updateEtudiant(etudiant: Etudiant): Observable<string> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.put<Etudiant>(`${this.apiUrl}/updateByCodeEtudiant`, etudiant, {headers})
+    return this.http.put<string>(`${this.apiUrl}/updateByCodeEtudiant`, etudiant, {headers})
       .pipe(
         catchError(error => {
           console.error('Erreur lors de la mise à jour', error);
@@ -44,7 +44,7 @@ export class EtudiantService {
   }
 
 
-  deleteEtudiant(codeEtudiant: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${codeEtudiant}`);
+  deleteEtudiant(codeEtudiant: string): Observable<string> {
+    return this.http.delete<string>(`${this.apiUrl}/${codeEtudiant}`);
   }
 }

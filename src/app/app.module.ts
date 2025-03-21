@@ -59,7 +59,7 @@ import {MatDialogActions, MatDialogContent} from '@angular/material/dialog';
     ReactiveFormsModule,
     MatSelectModule,
     MatDialogContent,
-    MatDialogActions
+    MatDialogActions,
   ],
   providers: [
     provideClientHydration(withEventReplay())

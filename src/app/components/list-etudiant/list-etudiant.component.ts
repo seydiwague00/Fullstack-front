@@ -7,6 +7,7 @@ import {EtudiantService} from '../../services/etudiant.service';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {UpdateEtudiantComponent} from '../update-etudiant/update-etudiant.component';
+import {DeleteStudentComponent} from '../delete-student/delete-student.component';
 
 @Component({
   selector: 'app-list-etudiant',
@@ -60,7 +61,17 @@ export class ListEtudiantComponent implements OnInit {
     });
   }
 
-  deleteStudent(student: Etudiant) {
-    this.router.navigateByUrl(`/deleteStudents/${student.codeEtudiant}`);
+  deleteStudent(etudiant: Etudiant): void {
+    const dialogRef = this.dialog.open(DeleteStudentComponent, {
+      width: '400px',
+      data: {codeEtudiant: etudiant.codeEtudiant, nom: etudiant.nom, prenom: etudiant.prenom}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Rafraîchir la liste après suppression
+        this.getAllEtudiants();
+      }
+    });
   }
 }
