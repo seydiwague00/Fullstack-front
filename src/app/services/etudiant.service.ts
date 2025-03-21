@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Etudiant} from '../models/etudiant.model';
@@ -46,5 +46,10 @@ export class EtudiantService {
 
   deleteEtudiant(codeEtudiant: string): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${codeEtudiant}`);
+  }
+
+  getFilteredStudents(filter: string): Observable<any[]> {
+    const params = new HttpParams().set('filter', filter);  // Ajouter le terme de recherche en tant que paramètre
+    return this.http.get<any[]>(`${this.apiUrl}/filteredStudents`, { params });
   }
 }

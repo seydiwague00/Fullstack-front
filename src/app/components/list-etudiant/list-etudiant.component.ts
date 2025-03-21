@@ -8,44 +8,64 @@ import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {UpdateEtudiantComponent} from '../update-etudiant/update-etudiant.component';
 import {DeleteStudentComponent} from '../delete-student/delete-student.component';
+import {debounceTime, of} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-etudiant',
   standalone: false,
   templateUrl: './list-etudiant.component.html',
-  styleUrl: './list-etudiant.component.css'
+  styleUrls: ['./list-etudiant.component.css']
 })
 export class ListEtudiantComponent implements OnInit {
 
-  etudiants: Etudiant[] = [];
-  public dataSource = new MatTableDataSource<Etudiant>;
+  public dataSource = new MatTableDataSource<Etudiant>();
   public displayedColumns: string[] = ["codeEtudiant", "nom", "prenom", "email", "niveauEtude", "actions"];
+
+  searchTerm: string = '';
+  isLoading: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private etudiantService: EtudiantService, private router: Router, public dialog: MatDialog) {
+  constructor(
+    private etudiantService: EtudiantService,
+    private router: Router,
+    public dialog: MatDialog
+  ) {
   }
 
   ngOnInit() {
     this.getAllEtudiants();
-    if (this.paginator && this.sort) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }
   }
 
   getAllEtudiants(): void {
     this.etudiantService.getAllEtudiants().subscribe((data) => {
-      this.etudiants = data;
-      this.dataSource = new MatTableDataSource(this.etudiants);
+      this.dataSource.data = data;  // Assurez-vous que les données sont bien affectées
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
-
-  filterStudents(event: Event) {
+  filterStudents(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = filterValue;
+    this.searchTerm = filterValue;
+
+    this.isLoading = true;
+
+    this.etudiantService.getFilteredStudents(this.searchTerm).pipe(
+      debounceTime(300),
+      catchError(error => {
+        console.error('Erreur lors de la récupération des étudiants:', error);
+        this.isLoading = false;
+        return of([]);
+      })
+    ).subscribe(students => {
+      this.isLoading = false;
+      this.dataSource.data = students;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   updateStudent(student: Etudiant): void {
@@ -69,7 +89,6 @@ export class ListEtudiantComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Rafraîchir la liste après suppression
         this.getAllEtudiants();
       }
     });

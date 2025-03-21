@@ -7,7 +7,7 @@
     <mat-card-content>
       <mat-form-field appearance="outline">
         <mat-label>Filter</mat-label>
-        <input matInput placeholder="Students filter" (change)="filterStudents($event)">
+        <input matInput placeholder="Students filter" (input)="filterStudents($event)">
       </mat-form-field>
 
       <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z3">
