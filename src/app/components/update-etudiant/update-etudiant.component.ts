@@ -1,9 +1,10 @@
 import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EtudiantService} from '../../services/etudiant.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Etudiant} from '../../models/etudiant.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Note} from '../../models/note.model';
 
 @Component({
   selector: 'app-update-etudiant',
@@ -26,21 +27,56 @@ export class UpdateEtudiantComponent {
       nom: [this.data.nom, Validators.required],
       prenom: [this.data.prenom, Validators.required],
       email: [this.data.email, [Validators.required, Validators.email]],
-      niveauEtude: [this.data.niveauEtude, Validators.required]
+      niveauEtude: [this.data.niveauEtude, Validators.required],
+      notes: this.fb.array([])  // Ajout du FormArray pour les notes
     });
+
+    // Initialisation des notes de l'étudiant
+    if (this.data.notes && this.data.notes.length > 0) {
+      this.setNotes(this.data.notes);
+    }
   }
 
-  saveChanges() {
+  // Getter pour accéder facilement aux notes dans le formulaire
+  get notes(): FormArray {
+    return this.studentForm.get('notes') as FormArray;
+  }
+
+  // Méthode pour initialiser les notes dans le formulaire
+  setNotes(notes: Note[]): void {
+    const noteFormGroups = notes.map(note => this.fb.group({
+      id: [note.id],  // Garder l'ID pour mettre à jour
+      matiere: [note.matiere, Validators.required],
+      valeur: [note.valeur, [Validators.required, Validators.min(0), Validators.max(20)]]
+    }));
+
+    // Ajouter chaque note dans le FormArray
+    noteFormGroups.forEach(noteFormGroup => this.notes.push(noteFormGroup));
+  }
+
+  // Ajouter une nouvelle note
+  addNote(): void {
+    const noteFormGroup = this.fb.group({
+      matiere: ['', Validators.required],
+      valeur: ['', [Validators.required, Validators.min(0), Validators.max(20)]]
+    });
+    this.notes.push(noteFormGroup);
+  }
+
+  // Supprimer une note
+  removeNote(index: number): void {
+    this.notes.removeAt(index);
+  }
+
+  // Sauvegarder les modifications
+  saveChanges(): void {
     if (this.studentForm.valid) {
-      const data = {
-        codeEtudiant: this.studentForm.value.codeEtudiant,
-        nom: this.studentForm.value.nom,
-        prenom: this.studentForm.value.prenom,
-        email: this.studentForm.value.email,
+      const updatedData = {
+        ...this.studentForm.value,
         niveauEtude: this.studentForm.value.niveauEtude.toUpperCase()
       };
 
-      this.etudiantService.updateEtudiant(data).subscribe({
+      this.etudiantService.updateEtudiant(updatedData).subscribe({
         next: (message) => {
           this.snackBar.open('Mise à jour réussie ! ✅', 'Fermer', {
             duration: 3000,
@@ -67,6 +103,7 @@ export class UpdateEtudiantComponent {
     }
   }
 
+  // Fermer le dialogue sans enregistrer
   closeDialog(): void {
     this.dialogRef.close();
   }

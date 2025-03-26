@@ -42,7 +42,8 @@ export class AddEtudiantComponent {
         nom: this.studentFormGroup.value.nom,
         prenom: this.studentFormGroup.value.prenom,
         email: this.studentFormGroup.value.email,
-        niveauEtude: this.studentFormGroup.value.niveauEtude
+        niveauEtude: this.studentFormGroup.value.niveauEtude,
+        notes: []
       };
 
       this.etudiantService.createEtudiant(data).subscribe({

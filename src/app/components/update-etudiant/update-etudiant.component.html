@@ -1,6 +1,7 @@
 <h2 mat-dialog-title>Modifier l'étudiant</h2>
 <mat-dialog-content>
   <form [formGroup]="studentForm">
+    <!-- Informations de l'étudiant -->
     <mat-form-field appearance="outline">
       <mat-label>Code Etudiant</mat-label>
       <input matInput formControlName="codeEtudiant" readonly/>
@@ -32,6 +33,25 @@
         <mat-option value="DOCTORAL">DOCTORAL</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <!-- Gestion des notes -->
+    <div formArrayName="notes">
+      <div *ngFor="let note of notes.controls; let i = index" [formGroupName]="i">
+        <mat-form-field appearance="outline">
+          <mat-label>Matière</mat-label>
+          <input matInput formControlName="matiere"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Valeur</mat-label>
+          <input matInput type="number" formControlName="valeur"/>
+        </mat-form-field>
+
+        <button mat-button (click)="removeNote(i)">Supprimer</button>
+      </div>
+    </div>
+
+    <button mat-button (click)="addNote()">Ajouter une note</button>
   </form>
 </mat-dialog-content>
 

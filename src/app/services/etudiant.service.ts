@@ -43,7 +43,6 @@ export class EtudiantService {
       );
   }
 
-
   deleteEtudiant(codeEtudiant: string): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${codeEtudiant}`);
   }

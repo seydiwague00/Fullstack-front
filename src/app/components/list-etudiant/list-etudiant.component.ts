@@ -46,6 +46,7 @@ export class ListEtudiantComponent implements OnInit, AfterViewInit {
 
   getAllEtudiants(): void {
     this.etudiantService.getAllEtudiants().subscribe((data) => {
+      console.log(data);
       this.dataSource.data = data;
     });
   }
