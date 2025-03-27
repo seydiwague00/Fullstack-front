@@ -45,4 +45,8 @@ export class AuthenticationService {
     this.username = decodedJwt.sub;
     this.roles = decodedJwt.scope;
   }
+
+  isAdmin() {
+    return this.roles.includes('ADMIN');
+  }
 }

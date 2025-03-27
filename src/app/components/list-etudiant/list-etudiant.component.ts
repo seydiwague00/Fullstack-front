@@ -10,6 +10,8 @@ import {UpdateEtudiantComponent} from '../update-etudiant/update-etudiant.compon
 import {DeleteStudentComponent} from '../delete-student/delete-student.component';
 import {debounceTime, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {AuthenticationService} from '../../services/authentication.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-etudiant',
@@ -30,8 +32,10 @@ export class ListEtudiantComponent implements OnInit, AfterViewInit {
 
   constructor(
     private etudiantService: EtudiantService,
+    protected authService: AuthenticationService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {
   }
 
@@ -72,7 +76,9 @@ export class ListEtudiantComponent implements OnInit, AfterViewInit {
     });
   }
 
+
   updateStudent(student: Etudiant): void {
+
     const dialogRef = this.dialog.open(UpdateEtudiantComponent, {
       width: '500px',
       data: student
@@ -86,15 +92,24 @@ export class ListEtudiantComponent implements OnInit, AfterViewInit {
   }
 
   deleteStudent(etudiant: Etudiant): void {
-    const dialogRef = this.dialog.open(DeleteStudentComponent, {
-      width: '400px',
-      data: {codeEtudiant: etudiant.codeEtudiant, nom: etudiant.nom, prenom: etudiant.prenom}
-    });
+    if (!this.authService.isAdmin()) {
+      this.snackBar.open("Salam Aleykoum haa, vous n'avez pas l'autorisation 🤣❌", 'Fermer', {
+        duration: 4000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        panelClass: ['error-snackbar']
+      });
+    } else {
+      const dialogRef = this.dialog.open(DeleteStudentComponent, {
+        width: '400px',
+        data: {codeEtudiant: etudiant.codeEtudiant, nom: etudiant.nom, prenom: etudiant.prenom}
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.getAllEtudiants();
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.getAllEtudiants();
+        }
+      });
+    }
   }
 }

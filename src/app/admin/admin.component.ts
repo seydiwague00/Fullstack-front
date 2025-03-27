@@ -10,7 +10,7 @@ import {AuthenticationService} from '../services/authentication.service';
 export class AdminComponent implements OnInit {
   search: any;
 
-  constructor(protected authenticationService: AuthenticationService) {
+  constructor(public authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -18,5 +18,9 @@ export class AdminComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout();
+  }
+
+  isAdmin() {
+    return this.authenticationService.isAdmin();
   }
 }

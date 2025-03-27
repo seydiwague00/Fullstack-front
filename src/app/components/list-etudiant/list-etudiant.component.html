@@ -44,7 +44,7 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Actions</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-flat-button (click)="updateStudent(element)">
+            <button *ngIf="authService.isAdmin()" mat-flat-button (click)="updateStudent(element)">
               <label>Edit</label>
               <mat-icon color="primary">edit</mat-icon>
             </button>

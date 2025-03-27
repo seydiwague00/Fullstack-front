@@ -6,9 +6,9 @@
   <div style="margin-left: auto">
     <button mat-button
             *ngIf="authenticationService.isAuthenticated">
-      {{authenticationService.username}}
+      {{ authenticationService.username.toUpperCase() }}
     </button>
-    <button mat-raised-button color="accent"  (click)="logout()">Logout</button>
+    <button mat-raised-button color="accent" (click)="logout()">Logout</button>
 
   </div>
 </mat-toolbar>
@@ -22,7 +22,7 @@
       <mat-list-item>
         <button routerLink="/admin/listStudents" mat-button>Students</button>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item *ngIf="isAdmin()">
         <button routerLink="/admin/addStudent" mat-button>Add student</button>
       </mat-list-item>
     </mat-nav-list>

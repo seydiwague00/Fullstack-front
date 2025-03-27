@@ -28,6 +28,7 @@ import {MatDialogActions, MatDialogContent, MatDialogTitle} from '@angular/mater
 import {LoginComponent} from './components/login/login.component';
 import {AuthenticationGuard} from './guards/authentication.guard';
 import {AppHttpInterceptor} from './interceptors/app-http.interceptor';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {AppHttpInterceptor} from './interceptors/app-http.interceptor';
     UpdateEtudiantComponent,
     DeleteStudentComponent,
     LoginComponent,
+    NotAuthorizedComponent,
   ],
   imports: [
     BrowserModule,

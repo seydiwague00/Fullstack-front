@@ -7,6 +7,8 @@ import {DeleteStudentComponent} from './components/delete-student/delete-student
 import {LoginComponent} from './components/login/login.component';
 import {AdminComponent} from './admin/admin.component';
 import {AuthenticationGuard} from './guards/authentication.guard';
+import {AuthorizationGuard} from './guards/authorization.guard';
+import {NotAuthorizedComponent} from './components/not-authorized/not-authorized.component';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
@@ -16,9 +18,23 @@ const routes: Routes = [
     path: "admin", component: AdminComponent, canActivate: [AuthenticationGuard],
     children: [
       {path: "listStudents", component: ListEtudiantComponent},
-      {path: "addStudent", component: AddEtudiantComponent},
-      {path: "updateStudent", component: UpdateEtudiantComponent},
-      {path: "deleteStudent", component: DeleteStudentComponent},
+      {path: "addStudent", component: AddEtudiantComponent, canActivate: [AuthorizationGuard], data: {role: "ADMIN"}},
+      {
+        path: "updateStudent",
+        component: UpdateEtudiantComponent,
+        canActivate: [AuthorizationGuard],
+        data: {role: "ADMIN"}
+      },
+      {
+        path: "deleteStudent",
+        component: DeleteStudentComponent,
+        canActivate: [AuthorizationGuard],
+        data: {role: "ADMIN"}
+      },
+      {
+        path: "notAuthorized",
+        component: NotAuthorizedComponent,
+      },
     ]
   },
 
