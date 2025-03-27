@@ -24,7 +24,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {DeleteStudentComponent} from './components/delete-student/delete-student.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
-import {MatDialogActions, MatDialogContent} from '@angular/material/dialog';
+import {MatDialogActions, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -60,6 +60,7 @@ import {MatDialogActions, MatDialogContent} from '@angular/material/dialog';
     MatSelectModule,
     MatDialogContent,
     MatDialogActions,
+    MatDialogTitle,
   ],
   providers: [
     provideClientHydration(withEventReplay())
