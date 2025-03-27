@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
   public loginFormGroup!: FormGroup;
+  private snackBar!: MatSnackBar
 
   constructor(
     private fb: FormBuilder,
@@ -31,10 +33,23 @@ export class LoginComponent implements OnInit {
     let username = this.loginFormGroup.value.username;
     let password = this.loginFormGroup.value.password;
 
-    let auth = this.authenticationService.login(username, password);
+    this.authenticationService.login(username, password).subscribe({
+      next: result => {
+        this.authenticationService.loadProfile(result);
+        this.router.navigate(['/admin']);
+      }, error: error => {
+        console.log(error);
+        this.showErrorSnackbar('Échec de la connexion. Vérifiez vos identifiants.');
+      }
+    });
+  }
 
-    if (auth) {
-      this.router.navigate(['/admin']);
-    }
+  showErrorSnackbar(message: string) {
+    this.snackBar.open(message, 'Fermer', {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      panelClass: ['error-snackbar'] // Ajout d'une classe CSS personnalisée
+    });
   }
 }

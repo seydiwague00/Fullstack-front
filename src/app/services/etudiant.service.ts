@@ -14,7 +14,13 @@ export class EtudiantService {
   }
 
   getAllEtudiants(): Observable<Etudiant[]> {
-    return this.http.get<Etudiant[]>(this.apiUrl);
+
+    return this.http.get<Etudiant[]>(`${this.apiUrl}`).pipe(
+      catchError(error => {
+        console.error('Erreur lors ddu chargement des données', error);
+        return throwError(() => new Error('Erreur serveur. Veuillez réessayer plus tard.'));
+      })
+    );
   }
 
   getEtudiantById(id: number): Observable<Etudiant> {
@@ -49,6 +55,6 @@ export class EtudiantService {
 
   getFilteredStudents(filter: string): Observable<any[]> {
     const params = new HttpParams().set('filter', filter);  // Ajouter le terme de recherche en tant que paramètre
-    return this.http.get<any[]>(`${this.apiUrl}/filteredStudents`, { params });
+    return this.http.get<any[]>(`${this.apiUrl}/filteredStudents`, {params});
   }
 }

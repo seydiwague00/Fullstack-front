@@ -5,7 +5,7 @@ import {AddEtudiantComponent} from './components/add-etudiant/add-etudiant.compo
 import {UpdateEtudiantComponent} from './components/update-etudiant/update-etudiant.component';
 import {DeleteStudentComponent} from './components/delete-student/delete-student.component';
 import {LoginComponent} from './components/login/login.component';
-import {AdminComponent} from './nav-bar/admin.component';
+import {AdminComponent} from './admin/admin.component';
 import {AuthGuard} from './guards/auth.guard';
 
 const routes: Routes = [

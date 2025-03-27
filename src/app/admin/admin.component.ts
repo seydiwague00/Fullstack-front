@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../services/authentication.service';
 
 @Component({
-  selector: 'app-nav-bar',
+  selector: 'app-admin',
   standalone: false,
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
