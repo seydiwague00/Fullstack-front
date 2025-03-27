@@ -25,6 +25,7 @@ import {DeleteStudentComponent} from './components/delete-student/delete-student
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogActions, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {MatDialogActions, MatDialogContent, MatDialogTitle} from '@angular/mater
     ListEtudiantComponent,
     UpdateEtudiantComponent,
     DeleteStudentComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
