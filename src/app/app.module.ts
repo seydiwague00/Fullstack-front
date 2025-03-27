@@ -26,7 +26,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogActions, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
 import {LoginComponent} from './components/login/login.component';
-import {AuthGuard} from './guards/auth.guard';
+import {AuthenticationGuard} from './guards/authentication.guard';
 import {AppHttpInterceptor} from './interceptors/app-http.interceptor';
 
 @NgModule({
@@ -72,7 +72,7 @@ import {AppHttpInterceptor} from './interceptors/app-http.interceptor';
       useClass: AppHttpInterceptor,
       multi: true
     },
-    AuthGuard
+    AuthenticationGuard
   ],
   bootstrap: [AppComponent]
 })

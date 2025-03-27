@@ -6,14 +6,14 @@ import {UpdateEtudiantComponent} from './components/update-etudiant/update-etudi
 import {DeleteStudentComponent} from './components/delete-student/delete-student.component';
 import {LoginComponent} from './components/login/login.component';
 import {AdminComponent} from './admin/admin.component';
-import {AuthGuard} from './guards/auth.guard';
+import {AuthenticationGuard} from './guards/authentication.guard';
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
   {path: "login", component: LoginComponent},
   // {path: '', redirectTo: '/listStudents', pathMatch: 'full'},
   {
-    path: "admin", component: AdminComponent, canActivate: [AuthGuard],
+    path: "admin", component: AdminComponent, canActivate: [AuthenticationGuard],
     children: [
       {path: "listStudents", component: ListEtudiantComponent},
       {path: "addStudent", component: AddEtudiantComponent},
