@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule, provideClientHydration, withEventReplay} from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -9,7 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule, MatIconButton} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {NavBarComponent} from './nav-bar/nav-bar.component';
+import {AdminComponent} from './nav-bar/admin.component';
 import {MatListItem, MatNavList} from '@angular/material/list';
 import {AddEtudiantComponent} from './components/add-etudiant/add-etudiant.component';
 import {ListEtudiantComponent} from './components/list-etudiant/list-etudiant.component';
@@ -25,12 +25,13 @@ import {DeleteStudentComponent} from './components/delete-student/delete-student
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogActions, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
-import { LoginComponent } from './components/login/login.component';
+import {LoginComponent} from './components/login/login.component';
+import {AuthGuard} from './guards/auth.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavBarComponent,
+    AdminComponent,
     AddEtudiantComponent,
     ListEtudiantComponent,
     UpdateEtudiantComponent,
@@ -65,7 +66,7 @@ import { LoginComponent } from './components/login/login.component';
     MatDialogTitle,
   ],
   providers: [
-    provideClientHydration(withEventReplay())
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

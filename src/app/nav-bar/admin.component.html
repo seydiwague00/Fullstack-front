@@ -1,0 +1,36 @@
+<mat-toolbar color="primary">
+  <button style="color: white;" mat-icon-button (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h2>Students Dashboard</h2>
+  <div style="margin-left: auto">
+    <button mat-button
+            *ngIf="authenticationService.isAuthenticated">
+      {{authenticationService.username}}
+    </button>
+    <button mat-raised-button color="accent"  (click)="logout()">Logout</button>
+
+  </div>
+</mat-toolbar>
+
+<mat-drawer-container>
+  <mat-drawer #drawer mode="side" position="start" [opened]="true">
+    <mat-nav-list>
+      <mat-list-item>
+        <button mat-button routerLink="/admin/listStudents">Dashboard</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button routerLink="/admin/listStudents" mat-button>Students</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button routerLink="/admin/addStudent" mat-button>Add student</button>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div style="min-height: 600px">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>
