@@ -3,23 +3,23 @@
   <form [formGroup]="studentForm">
     <!-- Informations de l'étudiant -->
     <mat-form-field appearance="outline">
-      <mat-label>Code Etudiant</mat-label>
-      <input matInput formControlName="codeEtudiant" readonly/>
+      <mat-label>Code Étudiant</mat-label>
+      <input matInput formControlName="codeEtudiant" readonly />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Nom</mat-label>
-      <input matInput formControlName="nom"/>
+      <input matInput formControlName="nom" />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Prenom</mat-label>
-      <input matInput formControlName="prenom"/>
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="prenom" />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
-      <input matInput formControlName="email"/>
+      <input matInput formControlName="email" />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -36,18 +36,31 @@
 
     <!-- Gestion des notes -->
     <div formArrayName="notes">
-      <div *ngFor="let note of notes.controls; let i = index" [formGroupName]="i">
+      <div *ngFor="let note of notes.controls; let i = index" [formGroupName]="i" class="note-row">
+
+        <!-- Affichage du libellé pour les notes existantes -->
         <mat-form-field appearance="outline">
           <mat-label>Matière</mat-label>
-          <input matInput formControlName="matiere"/>
+          <input matInput formControlName="matiere" readonly *ngIf="!isNewNote(i)" />
+
+          <!-- Liste déroulante uniquement pour les nouvelles notes -->
+          <mat-select formControlName="matiere" *ngIf="isNewNote(i)">
+            <mat-option *ngFor="let matiere of matieres" [value]="matiere">
+              {{ matiere }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
 
+        <!-- Saisie de la note -->
         <mat-form-field appearance="outline">
-          <mat-label>Valeur</mat-label>
-          <input matInput type="number" formControlName="valeur"/>
+          <mat-label>Note</mat-label>
+          <input matInput type="number" formControlName="valeur" min="0" max="20">
         </mat-form-field>
 
-        <button mat-button (click)="removeNote(i)">Supprimer</button>
+        <!-- Bouton pour supprimer la note -->
+        <button mat-icon-button color="warn" (click)="removeNote(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
     </div>
 

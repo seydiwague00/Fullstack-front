@@ -1,19 +1,21 @@
-import {Component, Inject} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {EtudiantService} from '../../services/etudiant.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {Etudiant} from '../../models/etudiant.model';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Note} from '../../models/note.model';
+import { Component, Inject } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EtudiantService } from '../../services/etudiant.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Etudiant } from '../../models/etudiant.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Note } from '../../models/note.model';
 
 @Component({
   selector: 'app-update-etudiant',
   standalone: false,
   templateUrl: './update-etudiant.component.html',
-  styleUrl: './update-etudiant.component.css'
+  styleUrls: ['./update-etudiant.component.css']
 })
 export class UpdateEtudiantComponent {
   studentForm: FormGroup;
+
+  matieres: string[] = ['Mathématiques', 'Physique', 'Chimie', 'Informatique', 'Biologie'];
 
   constructor(
     private fb: FormBuilder,
@@ -66,6 +68,11 @@ export class UpdateEtudiantComponent {
   // Supprimer une note
   removeNote(index: number): void {
     this.notes.removeAt(index);
+  }
+
+  // Vérifier si une note est nouvelle (permet d'afficher la liste déroulante)
+  isNewNote(index: number): boolean {
+    return this.notes.at(index).value.id == null;
   }
 
   // Sauvegarder les modifications

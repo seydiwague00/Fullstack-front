@@ -13,23 +13,20 @@ export class ListNoteComponent implements OnInit, AfterViewInit {
   public datasource = new MatTableDataSource<Note>();
   displayedColumns: string[] = ["id","matiere","valeur"];
 
-  constructor(private sportService: NoteService) {
+  constructor(private noteService: NoteService) {
   }
 
   ngOnInit() {
-    this.getSports()
+    this.getNotes()
   }
 
   ngAfterViewInit() {
   }
 
-  getSports():void {
-    this.sportService.getAllSports().subscribe((data) => {
+  getNotes():void {
+    this.noteService.getAllSports().subscribe((data) => {
       this.datasource.data = data;
     })
   }
 
-  addSport() {
-
-  }
 }
